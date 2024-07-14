@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="128dp"
+    android:layout_marginBottom="1px"
+    android:background="@color/white"
+    android:paddingStart="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_thing"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/sample1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="24dp"
+        android:clipToOutline="true"
+        android:background="@drawable/background_thing_photo"
+        />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:breakStrategy="simple"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="프라다 복조리백"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@id/iv_thing"
+        app:layout_constraintTop_toTopOf="@id/iv_thing"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수원시 영통구 원천동"
+        android:textSize="12sp"
+        android:textColor="#9F9B9B"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50,000원"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_address"/>
+
+    <TextView
+        android:id="@+id/tv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25"
+        android:textSize="14sp"
+        android:textColor="#9F9B9B"
+        app:layout_constraintBottom_toBottomOf="@id/iv_thing"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"/>
+
+    <ImageView
+        android:id="@+id/iv_like"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/heart"
+        app:layout_constraintEnd_toStartOf="@id/tv_like"
+        app:layout_constraintTop_toTopOf="@id/tv_like"
+        app:layout_constraintBottom_toBottomOf="@id/tv_like"
+        android:layout_marginEnd="2dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="16"
+        android:textSize="14sp"
+        android:textColor="#9F9B9B"
+        app:layout_constraintBottom_toBottomOf="@id/iv_thing"
+        app:layout_constraintEnd_toStartOf="@id/iv_like"
+        android:layout_marginEnd="8dp"/>
+
+    <ImageView
+        android:id="@+id/iv_chat"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_chat"
+        app:layout_constraintTop_toTopOf="@id/tv_chat"
+        app:layout_constraintBottom_toBottomOf="@id/tv_chat"
+        android:layout_marginEnd="2dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
