@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnPreDraw
 import com.android.nbc_market.databinding.ActivityDetailBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
@@ -35,13 +36,14 @@ class DetailActivity : AppCompatActivity() {
                         RecyclerItems.listData[i].isLiked = true
                         RecyclerItems.listData[i].like++
                         binding.ivDetailLike.setImageResource(R.drawable.full_heart)
-                        createSnackBar()
+                        createSnackBar("관심 목록에 추가됐습니다.")
                         break
                     }
                     else {
                         RecyclerItems.listData[i].isLiked = false
                         RecyclerItems.listData[i].like--
                         binding.ivDetailLike.setImageResource(R.drawable.heart)
+                        createSnackBar("관심 목록에서 삭제됐습니다.")
                         break
                     }
                 }
@@ -50,8 +52,8 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun createSnackBar() {
-        val snackbar = Snackbar.make(binding.root, "관심 목록에 추가됐습니다.", Snackbar.ANIMATION_MODE_SLIDE)
+    private fun createSnackBar(str: String) {
+        val snackbar = Snackbar.make(binding.root, str, 700)
         snackbar.show()
     }
 }

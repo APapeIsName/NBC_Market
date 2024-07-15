@@ -61,6 +61,8 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
 
     var itemClick: ItemClick? = null
 
+    var itemLongClick: ItemClick? = null
+
     private fun createDeleteDialog(position: Int) {
         val dialog = AlertDialog.Builder(context)
         dialog.setTitle("상품 삭제")

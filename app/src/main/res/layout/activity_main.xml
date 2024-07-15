@@ -63,26 +63,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_bar"/>
 
-    <ImageView
-        android:id="@+id/iv_btn_floating"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:scaleType="center"
-        android:layout_margin="32dp"
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_btn_floating"-->
+<!--        android:layout_width="48dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:scaleType="center"-->
+<!--        android:layout_margin="32dp"-->
+<!--        android:background="@drawable/selector_main_floating"-->
+<!--        android:src="@drawable/selector_main_floating_img"-->
+<!--        android:clickable="true"-->
+<!--        />-->
+    
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_floating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/selector_main_floating"
         android:src="@drawable/selector_main_floating_img"
-        android:clickable="true"
+        app:shapeAppearance="@drawable/selector_main_floating"
+        app:rippleColor="@color/select_fab_tint"
+        android:backgroundTint="@color/select_fab_tint"
+        app:tint="@color/select_fab_src_tint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="32dp"
         />
-    
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background=""-->
-<!--        android:src=""-->
-<!--        app:shapeAppearance=""-->
-<!--        app:rippleColor=""-->
-<!--        />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

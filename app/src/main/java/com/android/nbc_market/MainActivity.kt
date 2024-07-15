@@ -1,6 +1,7 @@
 package com.android.nbc_market
 
 import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.DialogInterface
@@ -14,6 +15,8 @@ import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var recyclerItems: List<RecyclerItemDataClass>
     private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    var changedIndex = -1
     private val permissionList = Manifest.permission.POST_NOTIFICATIONS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +73,13 @@ class MainActivity : AppCompatActivity() {
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if(dy != 0 && recycler.computeVerticalScrollOffset() > 0 && !binding.ivBtnFloating.isVisible) {
-                    binding.ivBtnFloating.isVisible = true
-                    binding.ivBtnFloating.startAnimation(floatingFadeInAnimation)
+                if(dy != 0 && recycler.computeVerticalScrollOffset() > 0 && !binding.btnFloating.isVisible) {
+                    binding.btnFloating.isVisible = true
+                    binding.btnFloating.startAnimation(floatingFadeInAnimation)
                 }
                 else if(recycler.computeVerticalScrollOffset() == 0) {
-                    binding.ivBtnFloating.isVisible = false
-                    binding.ivBtnFloating.startAnimation(floatingFadeOutAnimation)
+                    binding.btnFloating.isVisible = false
+                    binding.btnFloating.startAnimation(floatingFadeOutAnimation)
                 }
             }
         })
@@ -90,9 +95,9 @@ class MainActivity : AppCompatActivity() {
             else notification()
         }
 
-        binding.ivBtnFloating.isVisible = false
+        binding.btnFloating.isVisible = false
 
-        binding.ivBtnFloating.setOnClickListener {
+        binding.btnFloating.setOnClickListener {
             binding.recycler.smoothScrollToPosition(0)
         }
 
@@ -101,11 +106,44 @@ class MainActivity : AppCompatActivity() {
                 startIntentToDetailActivity(position)
             }
         }
+
+        recyclerAdapter.itemLongClick = object : RecyclerAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                createDeleteDialog(position)
+            }
+
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        recyclerAdapter.notifyDataSetChanged()
+        if(changedIndex != -1) {
+            recyclerAdapter.notifyItemChanged(changedIndex)
+            changedIndex = -1
+        }
+    }
+
+    private fun createDeleteDialog(position: Int) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("상품 삭제")
+        dialog.setIcon(R.drawable.chat)
+        dialog.setMessage("상품을 정말로 삭제하시겠습니까?")
+
+        val clickListener = DialogInterface.OnClickListener { _, which ->
+            when(which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    RecyclerItems.listData.removeAt(position)
+                    println("${RecyclerItems.listData.size} dwdw")
+                    recyclerAdapter.notifyItemRemoved(position)
+                    recyclerAdapter.notifyItemRangeChanged(position, recyclerAdapter.itemCount)
+                }
+            }
+        }
+
+        dialog.setPositiveButton("확인", clickListener)
+        dialog.setNegativeButton("취소", clickListener)
+
+        dialog.show()
     }
 
     fun createBackDialog() {
@@ -133,6 +171,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         intent.putExtra("data", recyclerItems[position])
+        changedIndex = position
         startActivity(intent)
     }
 
