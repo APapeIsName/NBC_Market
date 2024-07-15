@@ -29,13 +29,16 @@ import com.android.nbc_market.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var recyclerItems: List<RecyclerItemDataClass>
+    private lateinit var recyclerAdapter: RecyclerAdapter
     private val permissionList = Manifest.permission.POST_NOTIFICATIONS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        recyclerItems = RecyclerItems.getList(resources)
-        val recyclerAdapter = RecyclerAdapter(recyclerItems)
+        RecyclerItems.initData(resources)
+
+        recyclerItems = RecyclerItems.listData
+        recyclerAdapter = RecyclerAdapter(this)
         val recycler = binding.recycler
 
         val callback = object : OnBackPressedCallback(true) {
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = recyclerAdapter
         recycler.layoutManager = LinearLayoutManager(this)
 
+        // 스크롤 이동 시 이벤트
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // 알림 버튼
         binding.ivNotice.setOnClickListener {
             // 왜 이 권한을 요청하는지에 대한 근거를 설명해줄 수 있음
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
@@ -96,7 +101,11 @@ class MainActivity : AppCompatActivity() {
                 startIntentToDetailActivity(position)
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        recyclerAdapter.notifyDataSetChanged()
     }
 
     fun createBackDialog() {

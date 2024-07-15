@@ -1,11 +1,14 @@
 package com.android.nbc_market
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.TouchDelegate
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.android.nbc_market.databinding.ActivityDetailBinding
+import com.google.android.material.snackbar.Snackbar
 import java.text.NumberFormat
 
 class DetailActivity : AppCompatActivity() {
@@ -20,10 +23,35 @@ class DetailActivity : AppCompatActivity() {
         binding.tvDetailThing.text = data?.usedThing ?: "null"
         binding.tvDetailDesc.text = data?.description ?: "null"
         binding.tvDetailPrice.text = NumberFormat.getInstance().format(data?.price) + "원"
+        if(data?.isLiked == true) binding.ivDetailLike.setImageResource(R.drawable.full_heart)
 
         binding.ivBack.setOnClickListener {
             finish()
         }
+        binding.ivDetailLike.setOnClickListener {
+            for(i in 0 until RecyclerItems.listData.size) {
+                if(data?.num == RecyclerItems.listData[i].num) {
+                    if(!RecyclerItems.listData[i].isLiked) {
+                        RecyclerItems.listData[i].isLiked = true
+                        RecyclerItems.listData[i].like++
+                        binding.ivDetailLike.setImageResource(R.drawable.full_heart)
+                        createSnackBar()
+                        break
+                    }
+                    else {
+                        RecyclerItems.listData[i].isLiked = false
+                        RecyclerItems.listData[i].like--
+                        binding.ivDetailLike.setImageResource(R.drawable.heart)
+                        break
+                    }
+                }
+            }
+        }
 
+    }
+
+    private fun createSnackBar() {
+        val snackbar = Snackbar.make(binding.root, "관심 목록에 추가됐습니다.", Snackbar.ANIMATION_MODE_SLIDE)
+        snackbar.show()
     }
 }

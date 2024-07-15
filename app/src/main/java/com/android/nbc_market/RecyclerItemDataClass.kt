@@ -14,4 +14,5 @@ data class RecyclerItemDataClass(
     val address: String,
     var like: Int,
     var chat: Int,
+    var isLiked: Boolean
 ): Parcelable

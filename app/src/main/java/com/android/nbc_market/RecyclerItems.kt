@@ -3,7 +3,7 @@ package com.android.nbc_market
 import android.content.res.Resources
 
 object RecyclerItems {
-    private val listData: MutableList<RecyclerItemDataClass> = mutableListOf()
+    val listData: MutableList<RecyclerItemDataClass> = mutableListOf()
     private var num = 0
     private val arrPhoto = intArrayOf(
         R.drawable.sample1,
@@ -64,7 +64,7 @@ object RecyclerItems {
             addItem(
                 RecyclerItemDataClass(
                     num, arrPhoto[it], arrThing[it], arrDesc[it], arrSeller[it],
-                    arrPrice[it], arrAddress[it], arrLike[it], arrChat[it]
+                    arrPrice[it], arrAddress[it], arrLike[it], arrChat[it], false
                 )
             )
         }
@@ -75,9 +75,10 @@ object RecyclerItems {
         listData.add(item)
     }
 
-    fun getList(resources: Resources): List<RecyclerItemDataClass> {
-        initData(resources)
-        return listData
+    fun removeItem(position: Int) {
+        listData.removeAt(position)
     }
+
+//    fun getList(): List<RecyclerItemDataClass> = listData
 
 }
